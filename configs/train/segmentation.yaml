@@ -1,0 +1,46 @@
+# Training configuration for segmentation models
+training:
+  # General parameters
+  task: "segmentation"
+  epochs: 100
+  batch_size: 16
+  
+  # Optimizer
+  optimizer:
+    type: "adam"
+    learning_rate: 1e-4
+    weight_decay: 1e-5
+    betas: [0.9, 0.999]
+    eps: 1e-8
+  
+  # Learning rate scheduler
+  scheduler:
+    type: "cosine"
+    T_max: 100
+    eta_min: 1e-6
+  
+  # Loss function
+  loss:
+    type: "bce_dice_combined"
+    bce_weight: 0.5
+    dice_weight: 0.5
+    dice_smooth: 1.0
+  
+  # Validation
+  validation:
+    frequency: 1  # Every N epochs
+    metrics: ["iou", "dice", "precision", "recall"]
+  
+  # Checkpointing
+  checkpoint:
+    save_interval: 10
+    save_best: true
+    monitor_metric: "dice"
+    mode: "max"
+  
+  # Early stopping
+  early_stopping:
+    patience: 20
+    min_delta: 0.001
+    monitor_metric: "dice"
+    mode: "max"

@@ -1,0 +1,49 @@
+# Inference pipeline configuration
+inference:
+  # Pipeline mode
+  mode: "pipeline"  # Options: segmentation, restoration, pipeline
+  
+  # Model checkpoints
+  checkpoints:
+    segmentation: "data/checkpoints/best_segmentation_model.pth"
+    restoration: "data/checkpoints/best_restoration_model.pth"
+  
+  # Processing parameters
+  batch_size: 8
+  device: "auto"  # auto, cpu, cuda
+  
+  # Input/Output
+  input:
+    size: [256, 256]
+    normalize: true
+    preprocessing:
+      clahe: true
+      denoise: false
+  
+  output:
+    save_intermediates: false
+    formats: ["png"]
+    quality: 95
+  
+  # Post-processing
+  post_process:
+    segmentation:
+      threshold: 0.5
+      morphological:
+        enable: true
+        kernel_size: 3
+        iterations: 2
+      remove_small_objects: true
+      min_object_size: 100
+    
+    restoration:
+      seam_blending: true
+      intensity_matching: true
+      ring_size: 5
+  
+  # Tiling for large images
+  tiling:
+    enable: false
+    tile_size: [512, 512]
+    overlap: 64
+    blend_mode: "linear"

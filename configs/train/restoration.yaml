@@ -1,0 +1,55 @@
+# Training configuration for restoration models
+training:
+  # General parameters
+  task: "restoration"
+  epochs: 200
+  batch_size: 8  # Smaller batch size for restoration
+  
+  # Optimizer
+  optimizer:
+    type: "adam"
+    learning_rate: 1e-3
+    weight_decay: 1e-4
+    betas: [0.9, 0.999]
+    eps: 1e-8
+  
+  # Learning rate scheduler
+  scheduler:
+    type: "step"
+    step_size: 50
+    gamma: 0.5
+  
+  # Loss function (multiple losses for restoration)
+  loss:
+    reconstruction_weight: 1.0
+    perceptual_weight: 0.1
+    adversarial_weight: 0.01
+    
+    reconstruction:
+      type: "l1"
+    
+    perceptual:
+      network: "vgg16"
+      layers: ["conv1_2", "conv2_2", "conv3_3"]
+    
+    adversarial:
+      type: "lsgan"  # Least squares GAN loss
+  
+  # Validation
+  validation:
+    frequency: 2  # Every 2 epochs
+    metrics: ["psnr_masked", "psnr_unmasked", "ssim_masked"]
+  
+  # Checkpointing
+  checkpoint:
+    save_interval: 25
+    save_best: true
+    monitor_metric: "psnr_masked"
+    mode: "max"
+  
+  # Early stopping
+  early_stopping:
+    patience: 50
+    min_delta: 0.1
+    monitor_metric: "psnr_masked"
+    mode: "max"

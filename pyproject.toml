@@ -1,0 +1,92 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ultrastreak"
+version = "0.1.0"
+description = "A comprehensive deep learning toolkit for removing streak artifacts from ultrasound images using UNet segmentation and Fourier attention-based restoration networks"
+readme = "README.md"
+authors = [
+    {name = "Ultrasound Streak Removal Contributors"},
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+keywords = [
+    "ultrasound", 
+    "image-processing", 
+    "deep-learning", 
+    "pytorch", 
+    "medical-imaging",
+    "artifact-removal",
+    "segmentation",
+    "restoration",
+    "fourier-attention",
+    "computer-vision"
+]
+requires-python = ">=3.8"
+dependencies = [
+    "torch>=1.9.0",
+    "torchvision>=0.10.0",
+    "numpy>=1.21.0",
+    "opencv-python>=4.5.0",
+    "Pillow>=8.0.0",
+    "scipy>=1.7.0",
+    "scikit-image>=0.18.0",
+    "scikit-learn>=1.0.0",
+    "matplotlib>=3.4.0",
+    "tqdm>=4.60.0",
+    "pyyaml>=5.4.0",
+    "joblib>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0.0",
+    "pytest-cov>=2.12.0",
+    "black>=21.0.0",
+    "isort>=5.9.0",
+    "flake8>=3.9.0",
+    "pre-commit>=2.13.0",
+]
+docs = [
+    "sphinx>=4.0.0",
+    "sphinx-rtd-theme>=0.5.0",
+]
+
+[project.scripts]
+ultrastreak = "ultrastreak.cli.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ultrastreak/ultrastreak"
+Repository = "https://github.com/ultrastreak/ultrastreak"
+Issues = "https://github.com/ultrastreak/ultrastreak/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ["py38", "py39", "py310", "py311"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "--cov=src --cov-report=html --cov-report=term-missing"

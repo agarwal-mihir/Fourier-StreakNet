@@ -1,0 +1,21 @@
+# UNet with Notch Filter model configuration
+model:
+  type: "unet_notch"
+  
+  # Architecture parameters
+  in_channels: 1  # Original input channels (notch filter creates 2nd channel internally)
+  out_channels: 1  # Binary segmentation output
+  features: [64, 128, 256, 512]
+  
+  # Notch filter parameters
+  notch_filter:
+    width: 10
+  
+  # Model parameters
+  dropout: 0.0
+  batch_norm: true
+  bilinear: true
+  
+  # Initialization
+  weight_init: "kaiming_normal"
+  bias_init: "zeros"

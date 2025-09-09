@@ -1,0 +1,23 @@
+# Fourier Attention Network model configuration
+model:
+  type: "fourier_attention"
+  
+  # Architecture parameters
+  n_channels: 2  # Image + mask
+  n_classes: 3   # RGB output for restoration
+  bilinear: true
+  
+  # Fourier attention parameters
+  fourier_attention:
+    groups: 1
+    fft_norm: "ortho"
+    spectral_pos_encoding: false
+    use_se: false
+  
+  # Training parameters
+  dropout: 0.1
+  batch_norm: true
+  
+  # Initialization
+  weight_init: "kaiming_normal"
+  bias_init: "zeros"
