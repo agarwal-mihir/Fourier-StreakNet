@@ -217,3 +217,5 @@ def log_model_info(model, logger: logging.Logger):
     # Log model structure
     logger.info("Model structure:")
     logger.info(str(model))
+
+

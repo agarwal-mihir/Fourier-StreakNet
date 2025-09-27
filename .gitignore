@@ -10,7 +10,7 @@ datasets/
 *.h5
 *.hdf5
 checkpoints/
-models/
+# models/
 
 # Output directories
 outputs/
@@ -78,3 +78,4 @@ docs/_build/
 
 CLAUDE.md
 .claude/
+

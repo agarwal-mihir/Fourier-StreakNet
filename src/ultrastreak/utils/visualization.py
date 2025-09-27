@@ -452,3 +452,5 @@ def create_restoration_comparison(
     plt.tight_layout()
     plt.savefig(save_path, dpi=150, bbox_inches='tight')
     plt.close()
+
+
