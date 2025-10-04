@@ -31,8 +31,8 @@ This package provides a complete pipeline for ultrasound image streak removal:
 ### From Source
 
 ```bash
-git clone https://github.com/yourusername/ultrastreak.git
-cd ultrastreak
+git clone https://github.com/agarwal-mihir/Fourier-StreakNet.git
+cd Fourier-StreakNet
 pip install -e .
 ```
 
@@ -116,30 +116,28 @@ ultrastreak eval \
 ## Project Structure
 
 ```
-ultrastreak/
+Fourier-StreakNet/
 ├── src/ultrastreak/          # Main package
 │   ├── cli/                  # Command line interface
 │   │   ├── cli.py           # Main CLI entry point
 │   │   └── commands.py      # Command implementations
-│   ├── data/                # Data loading and augmentation
-│   │   ├── datasets.py      # Dataset classes
-│   │   └── transforms/      # Image transformations
 │   ├── models/              # Neural network models
 │   │   ├── unet.py         # Basic UNet
 │   │   ├── unet_notch.py   # UNet with notch filter
 │   │   ├── fourier_attention_net.py  # Restoration model
 │   │   └── blocks/         # Model components
+│   ├── inference/           # Inference pipeline
+│   │   └── pipeline.py     # Inference implementation
 │   └── utils/               # Utility functions
 ├── configs/                 # Configuration files
-│   ├── data/               # Data configurations
 │   ├── model/              # Model configurations
 │   ├── train/              # Training configurations
 │   └── infer/              # Inference configurations
 ├── scripts/                # Training and evaluation scripts
 │   ├── train_segmentation.py
-│   └── train_restoration.py
-├── tests/                  # Unit tests
-├── docs/                   # Documentation
+│   ├── train_restoration.py
+│   ├── test_segmentation.py
+│   └── setup_environment.py
 ├── pyproject.toml         # Package configuration
 ├── requirements.txt       # Dependencies
 └── README.md             # This file
@@ -158,7 +156,7 @@ ultrastreak/
 
 ## Configuration
 
-The package uses YAML configuration files for reproducible experiments. See `configs/data/ultrasound.yaml` for a complete example.
+The package uses YAML configuration files for reproducible experiments. See the configuration files in the `configs/` directory for complete examples.
 
 Key configuration sections:
 - **Data**: Dataset paths, preprocessing, augmentation
