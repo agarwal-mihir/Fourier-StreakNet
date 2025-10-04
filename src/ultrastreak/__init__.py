@@ -11,6 +11,6 @@ __version__ = "0.1.0"
 __author__ = "Your Name"
 __email__ = "your.email@example.com"
 
-from . import cli, data, models, utils
+from . import cli, models, utils
 
-__all__ = ["cli", "data", "models", "utils"]
+__all__ = ["cli", "models", "utils"]

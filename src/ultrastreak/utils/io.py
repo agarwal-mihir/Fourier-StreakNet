@@ -158,26 +158,3 @@ def get_file_list(directory: Union[str, Path],
     return sorted(files)
 
 
-def create_output_dirs(base_dir: Union[str, Path],
-                      subdirs: list = None) -> dict:
-    """Create output directory structure.
-
-    Args:
-        base_dir: Base output directory
-        subdirs: List of subdirectories to create
-
-    Returns:
-        Dictionary mapping subdir names to paths
-    """
-    if subdirs is None:
-        subdirs = ['checkpoints', 'logs', 'visualizations', 'results']
-
-    base_path = ensure_dir(base_dir)
-    dirs = {}
-
-    for subdir in subdirs:
-        dirs[subdir] = ensure_dir(base_path / subdir)
-
-    return dirs
-
-
