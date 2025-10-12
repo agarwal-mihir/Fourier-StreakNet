@@ -14,6 +14,7 @@ __all__ = [
     # Metrics
     "calculate_psnr_masked", "calculate_mse_unmasked", "calculate_iou",
     "calculate_dice", "dice_coefficient", "seam_intensity_match",
+    "calculate_sir_full",
     "evaluate_segmentation_metrics", "evaluate_restoration_metrics",
 
     # Visualization

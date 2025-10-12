@@ -197,6 +197,67 @@ def seam_intensity_match(input_img: torch.Tensor,
     return adjusted
 
 
+def calculate_sir_full(output_img: np.ndarray,
+                       mask: np.ndarray,
+                       dilate: bool = True,
+                       kernel_size: int = 5) -> dict:
+    """Compute full-image SIR (energy and mean) using mask to split signal vs streak.
+
+    Args:
+        output_img: Restored/output image as uint8 or float array (H x W)
+        mask: Binary mask where masked/streak pixels > 0 (H x W)
+        dilate: Whether to dilate mask to avoid seam bleed
+        kernel_size: Kernel size for dilation (odd integer)
+
+    Returns:
+        dict with keys: 'sir_energy_full', 'sir_mean_full'
+    """
+    img = np.asarray(output_img)
+    if img.ndim == 3 and img.shape[-1] == 3:
+        # convert to grayscale luminance
+        r, g, b = img[..., 0].astype(np.float32), img[..., 1].astype(np.float32), img[..., 2].astype(np.float32)
+        img = (0.2989 * r + 0.5870 * g + 0.1140 * b)
+    else:
+        img = img.astype(np.float32)
+
+    m = np.asarray(mask)
+    if m.ndim == 3:
+        m = m[..., 0]
+    mask_bool = (m > 0).astype(np.uint8)
+
+    if dilate:
+        try:
+            k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (kernel_size, kernel_size))
+            mask_dil = cv2.dilate(mask_bool, k, iterations=1).astype(bool)
+        except Exception:
+            mask_dil = mask_bool.astype(bool)
+    else:
+        mask_dil = mask_bool.astype(bool)
+
+    signal_full = ~mask_dil
+    streak_full = mask_dil
+
+    eps = 1e-12
+    if np.any(signal_full):
+        E_sig = float(np.sum(img[signal_full] ** 2))
+        mean_sig = float(np.mean(img[signal_full]))
+    else:
+        E_sig, mean_sig = 0.0, 0.0
+    if np.any(streak_full):
+        E_str = float(np.sum(img[streak_full] ** 2))
+        mean_str = float(np.mean(img[streak_full]))
+    else:
+        E_str, mean_str = 0.0, 0.0
+
+    sir_energy_full = float('nan') if E_str <= 0.0 else float(10.0 * np.log10((E_sig + eps) / (E_str + eps)))
+    sir_mean_full = float('nan') if mean_str <= 0.0 else float(20.0 * np.log10((mean_sig + eps) / (mean_str + eps)))
+
+    return {
+        'sir_energy_full': sir_energy_full,
+        'sir_mean_full': sir_mean_full,
+    }
+
+
 def evaluate_segmentation_metrics(pred: torch.Tensor,
                                 target: torch.Tensor,
                                 threshold: float = 0.5) -> dict:

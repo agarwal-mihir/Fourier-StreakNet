@@ -11,6 +11,7 @@ from tqdm import tqdm
 
 from ..models import UNet, UNetWithFourierAttention
 from ..utils.io import ensure_dir, get_file_list
+from ..utils.metrics import seam_intensity_match
 
 
 class InferencePipeline:
@@ -98,13 +99,16 @@ class InferencePipeline:
         """Restore image using detected streak mask."""
         # Concatenate image and mask as input to restoration model
         input_tensor = torch.cat([image_tensor, mask_tensor], dim=1)  # [1, 2, H, W]
-        
+
         with torch.no_grad():
-            restored = self.restore_model(input_tensor)
-            # Apply sigmoid to get pixel values in [0, 1]
-            restored = torch.sigmoid(restored)
-        
-        return restored
+            pred = torch.sigmoid(self.restore_model(input_tensor))
+            # Blend prediction with input based on mask (keep outside region as original)
+            pred = pred * mask_tensor + image_tensor * (1 - mask_tensor)
+            # Seam intensity match to reduce boundary artifacts
+            pred = seam_intensity_match(image_tensor, pred, mask_tensor, ring_size=5)
+            pred = torch.clamp(pred, 0.0, 1.0)
+
+        return pred
 
     def _postprocess_output(self, output_tensor: torch.Tensor) -> np.ndarray:
         """Postprocess model output to save as image."""
