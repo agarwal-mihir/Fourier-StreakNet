@@ -19,7 +19,7 @@ This package provides a complete pipeline for ultrasound image streak removal:
 
 - **Modular Architecture**: Clean, professional code structure
 - **Multiple Models**: UNet, UNet with notch filtering, and Fourier attention networks
-- **Comprehensive Evaluation**: IoU, Dice, PSNR, SSIM metrics
+- **Comprehensive Evaluation**: IoU, Dice, PSNR, SIR metrics
 - **CLI Interface**: Easy-to-use command line tools with full pipeline support
 - **Configuration-Driven**: YAML-based configuration for reproducible experiments
 - **Experiment Tracking**: Built-in logging and visualization
@@ -241,7 +241,7 @@ ultrastreak eval \
 
 ### Restoration
 - **PSNR (Peak Signal-to-Noise Ratio)**: Image quality metric
-- **SSIM (Structural Similarity Index)**: Perceptual image quality
+- **SIR (Signal-to-Interference Ratio)**: Ratio of signal energy to streak artifact energy
 - **MSE**: Mean squared error in masked regions
 
 
