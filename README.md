@@ -126,17 +126,32 @@ Fourier-StreakNet/
 │   │   ├── unet_notch.py   # UNet with notch filter
 │   │   ├── fourier_attention_net.py  # Restoration model
 │   │   └── blocks/         # Model components
+│   │       ├── attention.py   # Attention mechanisms
+│   │       ├── fourier.py     # Fourier transform layers
+│   │       └── unet_blocks.py # UNet building blocks
 │   ├── inference/           # Inference pipeline
 │   │   └── pipeline.py     # Inference implementation
 │   └── utils/               # Utility functions
+│       ├── io.py           # File I/O utilities
+│       ├── logging.py      # Logging utilities
+│       ├── metrics.py      # Evaluation metrics (PSNR, SIR, IoU, Dice)
+│       ├── seed.py         # Reproducibility utilities
+│       └── visualization.py # Plotting and visualization
 ├── configs/                 # Configuration files
 │   ├── model/              # Model configurations
+│   │   ├── unet.yaml
+│   │   ├── unet_notch.yaml
+│   │   └── fourier_attention.yaml
 │   ├── train/              # Training configurations
+│   │   ├── segmentation.yaml
+│   │   └── restoration.yaml
 │   └── infer/              # Inference configurations
+│       └── pipeline.yaml
 ├── scripts/                # Training and evaluation scripts
 │   ├── train_segmentation.py
 │   ├── train_restoration.py
 │   ├── test_segmentation.py
+│   ├── test_restoration.py
 │   └── setup_environment.py
 ├── pyproject.toml         # Package configuration
 ├── requirements.txt       # Dependencies
