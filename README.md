@@ -19,7 +19,7 @@ This package provides a complete pipeline for ultrasound image streak removal:
 
 - **Modular Architecture**: Clean, professional code structure
 - **Multiple Models**: UNet, UNet with notch filtering, and Fourier attention networks
-- **Comprehensive Evaluation**: IoU, Dice, PSNR, SSIM metrics
+- **Comprehensive Evaluation**: IoU, Dice, PSNR, SIR metrics
 - **CLI Interface**: Easy-to-use command line tools with full pipeline support
 - **Configuration-Driven**: YAML-based configuration for reproducible experiments
 - **Experiment Tracking**: Built-in logging and visualization
@@ -126,17 +126,32 @@ Fourier-StreakNet/
 │   │   ├── unet_notch.py   # UNet with notch filter
 │   │   ├── fourier_attention_net.py  # Restoration model
 │   │   └── blocks/         # Model components
+│   │       ├── attention.py   # Attention mechanisms
+│   │       ├── fourier.py     # Fourier transform layers
+│   │       └── unet_blocks.py # UNet building blocks
 │   ├── inference/           # Inference pipeline
 │   │   └── pipeline.py     # Inference implementation
 │   └── utils/               # Utility functions
+│       ├── io.py           # File I/O utilities
+│       ├── logging.py      # Logging utilities
+│       ├── metrics.py      # Evaluation metrics (PSNR, SIR, IoU, Dice)
+│       ├── seed.py         # Reproducibility utilities
+│       └── visualization.py # Plotting and visualization
 ├── configs/                 # Configuration files
 │   ├── model/              # Model configurations
+│   │   ├── unet.yaml
+│   │   ├── unet_notch.yaml
+│   │   └── fourier_attention.yaml
 │   ├── train/              # Training configurations
+│   │   ├── segmentation.yaml
+│   │   └── restoration.yaml
 │   └── infer/              # Inference configurations
+│       └── pipeline.yaml
 ├── scripts/                # Training and evaluation scripts
 │   ├── train_segmentation.py
 │   ├── train_restoration.py
 │   ├── test_segmentation.py
+│   ├── test_restoration.py
 │   └── setup_environment.py
 ├── pyproject.toml         # Package configuration
 ├── requirements.txt       # Dependencies
@@ -241,7 +256,7 @@ ultrastreak eval \
 
 ### Restoration
 - **PSNR (Peak Signal-to-Noise Ratio)**: Image quality metric
-- **SSIM (Structural Similarity Index)**: Perceptual image quality
+- **SIR (Signal-to-Interference Ratio)**: Ratio of signal energy to streak artifact energy
 - **MSE**: Mean squared error in masked regions
 
 
