@@ -259,5 +259,9 @@ ultrastreak eval \
 - **SIR (Signal-to-Interference Ratio)**: Ratio of signal energy to streak artifact energy
 - **MSE**: Mean squared error in masked regions
 
+## Contributors
+
+- [Mihir Agarwal](https://github.com/agarwal-mihir)
+- [Shreyans Jain](https://github.com/shreyansjain04)
 
 
